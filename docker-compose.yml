@@ -1,0 +1,42 @@
+version: "3.2"
+
+version: "3.2"
+
+services: 
+
+  nginx:
+    image: nginx:latest
+    container_name: nginxBalancerServer
+    volumes:
+      - /home/jose/Documents/apps/nginx/nginx_tomcat_balancer/nginx.conf:/etc/nginx/nginx.conf
+    networks: 
+      gateway_net:
+        ipv4_address: 185.168.1.10
+
+  server01:
+    image: tomcat:8.0.45-jre8 
+    container_name: tomcat_server01
+    networks: 
+      gateway_net:
+        ipv4_address: 185.168.1.11
+  
+  server02:
+    image: tomcat:8.0.45-jre8
+    container_name: tomcat_server02
+    networks: 
+      gateway_net:
+        ipv4_address: 185.168.1.12
+
+  server03:
+    image: tomcat:8.0.45-jre8
+    container_name: tomcat_server03
+    networks:
+      gateway_net:
+        ipv4_address: 185.168.1.13
+  
+networks:
+ gateway_net:
+    driver: bridge
+    ipam:
+     config:
+     - subnet: 185.168.0.0/16
